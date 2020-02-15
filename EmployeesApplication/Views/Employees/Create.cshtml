@@ -1,0 +1,203 @@
+﻿@model EmployeeApplication.Helper.EmployeeDTO
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<form asp-action="Create" id="registrationform">
+    <div class="form-horizontal">
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" id="namespan" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Email" type="email" class="form-control" />
+                <span asp-validation-for="Email" id="emailspan" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Password" type="password" class="form-control" />
+                <span asp-validation-for="Password" id="passwordspan" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label">Repeat Password</label>
+            <div class="col-md-10">
+                <input id="ConfirmPassword" type="password" class="form-control" />
+                <span id="confirmpasswordspan" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="BirthDate" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="BirthDate" id="BirthDate" type="text" class="form-control" />
+                <span asp-validation-for="BirthDate" id="birthdatespan" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Sullary" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Sullary" class="form-control" />
+                <span asp-validation-for="Sullary" id="sullaryspan" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="TemrsAccepted" class="col-md-2 control-label">Αποδοχή Όρων</label>
+            <input type="checkbox" asp-for="TemrsAccepted" id="TemrsAccepted" class="form-check-input" />
+            <span asp-validation-for="TemrsAccepted" id="termsacceptedspan" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Εγγραφή" id="submit" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        $(document).ready(
+
+            function () {
+
+                jQuery("#BirthDate").datetimepicker();
+
+                $("#Name").blur(function () {
+                    if ($("#Name").val() == null || $("#Name").val() == "")
+                        $("#namespan").text("Please enter Name.");
+                    else
+                        $("#namespan").text("");
+                });
+
+                $("#Email").blur(function () {
+                    var emailReg = /^([\w-\.]+@@([\w-]+\.)+[\w-]{2,4})?$/;
+                    var emailaddress = $("#Email").val();
+
+                    if (emailaddress == null || emailaddress == "")
+                        $("#emailspan").text("Please enter Email.");
+                    else if (!emailReg.test(emailaddress))
+                        $("#emailspan").text("Please enter a valid Email address.");
+                    else
+                        $("#emailspan").text("");
+                });
+
+                $("#Password").blur(function () {
+                    if ($("#Password").val() == null || $("#Password").val() == "")
+                        $("#passwordspan").text("Please enter Password.");
+                    else
+                        $("#passwordspan").text("");
+                });
+
+                $("#ConfirmPassword").blur(function () {
+                    if ($("#ConfirmPassword").val() == null || $("#ConfirmPassword").val() == "")
+                        $("#confirmpasswordspan").text("Please enter ConfirmPassword.");
+                    else if ($("#Password").val() != $("#ConfirmPassword").val())
+                        $("#confirmpasswordspan").text("Password and Confirmation Password must match.");
+                    else
+                        $("#confirmpasswordspan").text("");
+                });
+
+                $("#Sullary").blur(function () {
+                    var sullaryReg = /^\d{0,4}(\.\d{0,2})?$/;
+                    var sullary = $("#Sullary").val();
+
+                    if ($("#Sullary").val() == null || $("#Sullary").val() == "")
+                        $("#sullaryspan").text("Please enter Sullary.");
+                    else if (!sullaryReg.test(sullary))
+                        $("#sullaryspan").text("Please enter a valid Sullary amount.");
+                    else
+                        $("#sullaryspan").text("");
+                });
+
+                $("#submit").click(
+
+                    function Validation() {
+
+                        var hasErrors = false;
+
+                        if ($("#Name").val() == null || $("#Name").val() == "") {
+                            $("#namespan").text("Please enter Name.");
+                            hasErrors = true;
+                        }
+                        else
+                            $("#namespan").text("");
+
+                        if ($("#Email").val() == null || $("#Email").val() == "") {
+                            $("#emailspan").text("Please enter Email.");
+                            hasErrors = true;
+                        }
+                        else
+                            $("#emailspan").text("");
+
+                        if ($("#Password").val() == null || $("#Password").val() == "") {
+                            $("#passwordspan").text("Please enter Password.");
+                            hasErrors = true;
+                        }
+                        else
+                            $("#passwordspan").text("");
+
+                        if ($("#ConfirmPassword").val() == null || $("#ConfirmPassword").val() == "") {
+                            $("#confirmpasswordspan").text("Please enter ConfirmPassword.");
+                            hasErrors = true;
+                        }
+                        else
+                            $("#confirmpasswordspan").text("");
+
+                        if ($("#BirthDate").val() == null || $("#BirthDate").val() == "") {
+                            $("#birthdatespan").text("Please enter BirthDate.");
+                            hasErrors = true;
+                        }
+                        else
+                            $("#birthdatespan").text("");
+
+                        if ($("#Sullary").val() == null || $("#Sullary").val() == "") {
+                            $("#sullaryspan").text("Please enter Sullary.");
+                            hasErrors = true;
+                        }
+                        else
+                            $("#sullaryspan").text("");
+
+                        if ($("#TemrsAccepted").is(':checked')) {
+                            $("#termsacceptedspan").text("");
+                        }
+                        else {
+                            $("#termsacceptedspan").text("You must accept the Terms.");
+                            hasErrors = true;
+                        }
+
+                        if ($(".text-danger").not(':empty').length)
+                            hasErrors = true;
+
+                        if (hasErrors)
+                            return false;
+                        else
+                            return true;
+                    });
+
+                $("#TemrsAccepted").change(function () {
+                    if (this.checked) {
+                        $("#TemrsAcceptedError").text("");
+                        return true;
+                    }
+                });
+            }
+        );
+
+    </script>
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
